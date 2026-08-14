@@ -1,36 +1,100 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ahesan Chowdhury — Portfolio
 
-## Getting Started
+Personal portfolio website of **Ahesan Chowdhury**, Software Engineer and Java Backend Developer, built as a single-page site with dark/light themes, scroll animations and full SEO metadata (sitemap, robots, Open Graph image).
 
-First, run the development server:
+**Tech stack**
+
+- [Next.js 16](https://nextjs.org/) (App Router)
+- TypeScript (strict)
+- Tailwind CSS v4
+- Framer Motion
+- Lucide icons
+- next-themes (class-based dark mode)
+
+## Getting started
+
+Prerequisites: **Node.js 20+** and npm.
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Production build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+Lint the project:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run lint
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploy to Vercel
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Option A — GitHub integration (recommended)
 
-## Deploy on Vercel
+1. Push this repository to GitHub.
+2. Go to [vercel.com](https://vercel.com), sign in, and click **Add New… → Project**.
+3. **Import** the repository. Vercel auto-detects the framework as **Next.js** — no configuration needed.
+4. Click **Deploy**.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+After that, every push to `main` deploys to production automatically, and every pull request gets its own preview URL.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Option B — Vercel CLI
+
+```bash
+npm i -g vercel
+vercel        # creates a preview deployment
+vercel --prod # deploys to production
+```
+
+### After the first deploy: set the site URL
+
+The canonical site URL controls the generated `sitemap.xml`, `robots.txt` and Open Graph URLs. It is defined in [`src/lib/site.ts`](src/lib/site.ts) and reads the `NEXT_PUBLIC_SITE_URL` environment variable, falling back to `https://ahesan-chowdhury.vercel.app`.
+
+Set the real URL one of two ways, then **redeploy**:
+
+- In Vercel: **Project → Settings → Environment Variables**, add `NEXT_PUBLIC_SITE_URL` with your deployed URL (e.g. `https://your-project.vercel.app`), or
+- Edit the fallback string directly in `src/lib/site.ts`.
+
+### Custom domain (later)
+
+1. In Vercel: **Project → Settings → Domains → Add** and enter your domain.
+2. Configure DNS at your registrar per Vercel's instructions (an `A` record for apex domains, a `CNAME` for subdomains).
+3. Update `NEXT_PUBLIC_SITE_URL` to the new domain and redeploy.
+
+## Updating content
+
+All site content lives in data modules — no component edits needed:
+
+| What                            | Where                                                                                                                            |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Resume PDF                      | `public/resume/Ahesan_Chowdhury_Resume.pdf` — replace the file and keep the filename, or update `resumePath` / `resumeFileName` in `src/data/profile.ts` |
+| Profile, bio, email, social links | `src/data/profile.ts`                                                                                                          |
+| Skills                          | `src/data/skills.ts`                                                                                                             |
+| Work experience                 | `src/data/experience.ts`                                                                                                         |
+| Projects                        | `src/data/projects.ts`                                                                                                           |
+| Education                       | `src/data/education.ts`                                                                                                          |
+| Expertise / architecture copy   | `src/data/architecture.ts`                                                                                                       |
+| Photo                           | `public/images/ahesan.jpg`                                                                                                       |
+
+## Project structure
+
+```
+portfolio/
+├── public/
+│   ├── images/          # photo assets
+│   └── resume/          # downloadable resume PDF
+├── src/
+│   ├── app/             # App Router: layout, page, globals.css, SEO files
+│   ├── components/      # UI sections and shared primitives
+│   ├── data/            # all site content (single source of truth)
+│   └── lib/             # site config and utilities
+└── package.json
+```

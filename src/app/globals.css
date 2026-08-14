@@ -1,26 +1,212 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   Design tokens — light theme on :root, dark overrides on .dark.
+   Components must use the semantic utilities (bg-background, bg-surface,
+   text-foreground, text-muted, border-line, text-accent, ...) so both themes
+   work automatically.
+--------------------------------------------------------------------------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f6f8fc;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --foreground: #0b1220;
+  --muted: #48566c;
+  --subtle: #64748b;
+  --accent: #0369a1;
+  --accent-bright: #0284c7;
+  --accent-2: #1d4ed8;
+  --line: rgba(11, 18, 32, 0.1);
+  --line-strong: rgba(11, 18, 32, 0.18);
+  --glow: rgba(2, 132, 199, 0.14);
+  --card-shadow: 0 1px 2px rgba(11, 18, 32, 0.04), 0 12px 32px -16px rgba(11, 18, 32, 0.16);
+}
+
+.dark {
+  --background: #050810;
+  --surface: #0a101d;
+  --surface-raised: #0d1524;
+  --foreground: #e6edf8;
+  --muted: #9fb0c7;
+  --subtle: #8092ab;
+  --accent: #38bdf8;
+  --accent-bright: #7dd3fc;
+  --accent-2: #60a5fa;
+  --line: rgba(148, 163, 184, 0.14);
+  --line-strong: rgba(148, 163, 184, 0.28);
+  --glow: rgba(56, 189, 248, 0.16);
+  --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 40px -20px rgba(0, 0, 0, 0.55);
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-accent: var(--accent);
+  --color-accent-bright: var(--accent-bright);
+  --color-accent-2: var(--accent-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  overflow-x: clip;
+}
+
+/* Anchor targets clear the sticky navbar. */
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* ---------------------------------------------------------------------------
+   Shared component classes — keep every section visually consistent.
+--------------------------------------------------------------------------- */
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+
+  .section-pad {
+    @apply py-20 sm:py-28;
+  }
+
+  .btn,
+  .btn-primary,
+  .btn-outline,
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium
+      transition-[transform,background-color,border-color,box-shadow,color] duration-200
+      focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent;
+  }
+
+  .btn-lg {
+    @apply px-6 py-3;
+  }
+
+  .btn-md {
+    @apply px-4 py-2;
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-sky-500 to-blue-600 text-white
+      shadow-[0_8px_24px_-8px_rgba(14,165,233,0.5)]
+      hover:shadow-[0_10px_32px_-8px_rgba(14,165,233,0.65)] hover:brightness-110;
+  }
+
+  .btn-outline {
+    @apply border border-line-strong text-foreground bg-surface/40
+      hover:border-accent/60 hover:text-accent;
+  }
+
+  .btn-ghost {
+    @apply text-muted hover:text-accent;
+  }
+
+  .card {
+    @apply rounded-2xl border border-line bg-surface
+      shadow-[var(--card-shadow)];
+  }
+
+  .chip,
+  .chip-accent {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-surface
+      px-3 py-1 text-xs font-medium text-muted transition-colors duration-200;
+  }
+
+  .chip-accent {
+    @apply border-accent/25 text-accent bg-accent/5;
+  }
+
+  .glass {
+    @apply border-b border-line bg-background/75 backdrop-blur-xl;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-sky-400 via-cyan-300 to-blue-500 bg-clip-text text-transparent;
+  }
+
+  .eyebrow {
+    @apply font-mono text-xs font-medium uppercase tracking-[0.2em] text-accent;
+  }
+}
+
+/* Light theme needs a darker gradient for readable gradient text. */
+:root:not(.dark) .text-gradient {
+  @apply from-sky-600 via-blue-600 to-indigo-600;
+}
+
+/* ---------------------------------------------------------------------------
+   Ambient animations (used sparingly: hero background, accents).
+--------------------------------------------------------------------------- */
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -16px, 0);
+  }
+}
+
+@keyframes gradient-pan {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 9s ease-in-out infinite;
+}
+
+.animate-gradient-pan {
+  background-size: 200% 200%;
+  animation: gradient-pan 14s ease infinite;
+}
+
+.animate-dash-flow {
+  animation: dash-flow 1.6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-slow,
+  .animate-gradient-pan,
+  .animate-dash-flow {
+    animation: none;
+  }
 }

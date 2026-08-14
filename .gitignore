@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local AI/tooling files (not part of the public repo)
+.claude/
+CLAUDE.md
+AGENTS.md
+DESIGN_SPEC.md
