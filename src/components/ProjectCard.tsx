@@ -8,7 +8,7 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { ArrowRight, ArrowUpRight, Check, Globe } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check, Globe, Sparkles } from "lucide-react";
 import { GithubIcon } from "@/components/icons";
 import Reveal from "@/components/Reveal";
 import { cn } from "@/lib/utils";
@@ -77,6 +77,15 @@ export default function ProjectCard({
                 {project.name}
               </h3>
               <p className="mt-3 leading-relaxed text-muted">{project.description}</p>
+
+              <ul className="mt-5 flex flex-wrap gap-2" aria-label="Engineering highlights">
+                {project.engineeringHighlights.map((item) => (
+                  <li key={item.title} className="chip-accent">
+                    <Sparkles className="size-3" aria-hidden />
+                    {item.title}
+                  </li>
+                ))}
+              </ul>
 
               <div className="mt-5 flex flex-wrap gap-2">
                 {project.technologies.map((tech) => (

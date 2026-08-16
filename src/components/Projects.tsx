@@ -15,7 +15,7 @@ export default function Projects() {
         <SectionHeading
           eyebrow="04 · Projects"
           title="Featured Projects"
-          description="Systems I designed and built end to end — the code is on GitHub."
+          description="Systems I designed and built end to end. Every highlight below is taken from the source — the code is on GitHub."
         />
         <div className="flex flex-col gap-8">
           {projects.map((p, i) => (

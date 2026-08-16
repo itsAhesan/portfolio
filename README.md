@@ -79,7 +79,7 @@ All site content lives in data modules — no component edits needed:
 | Profile, bio, email, social links | `src/data/profile.ts`                                                                                                          |
 | Skills                          | `src/data/skills.ts`                                                                                                             |
 | Work experience                 | `src/data/experience.ts`                                                                                                         |
-| Projects                        | `src/data/projects.ts`                                                                                                           |
+| Projects                        | `src/data/projects.ts` — each project has `engineeringHighlights` (keep every entry verifiable in the repo) and optional `scale` facts |
 | Education                       | `src/data/education.ts`                                                                                                          |
 | Expertise / architecture copy   | `src/data/architecture.ts`                                                                                                       |
 | Photo                           | `public/images/ahesan.jpg`                                                                                                       |

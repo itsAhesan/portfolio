@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import ThemeProvider from "@/components/ThemeProvider";
 import { profile } from "@/data/profile";
@@ -97,6 +99,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
+        {/* Vercel visitor analytics + Core Web Vitals — privacy-friendly, no cookies. */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

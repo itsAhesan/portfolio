@@ -2,7 +2,7 @@
 
 import { Fragment, useEffect, useRef } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, ArrowUpRight, Check, Globe, X } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check, Globe, Sparkles, X } from "lucide-react";
 import { GithubIcon } from "@/components/icons";
 import { lockBodyScroll, unlockBodyScroll } from "@/lib/utils";
 import type { Project } from "@/data/projects";
@@ -125,6 +125,42 @@ export default function ProjectModal({
                   </Fragment>
                 ))}
               </div>
+            </div>
+
+            {project.scale ? (
+              <dl className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                {project.scale.map((fact) => (
+                  <div
+                    key={fact.label}
+                    className="rounded-xl border border-line bg-surface-raised px-3 py-2.5"
+                  >
+                    <dt className="text-[11px] uppercase tracking-wider text-subtle">
+                      {fact.label}
+                    </dt>
+                    <dd className="mt-0.5 font-mono text-lg font-semibold text-foreground">
+                      {fact.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            ) : null}
+
+            <div className="mt-6">
+              <h4 className="flex items-center gap-2 text-sm font-semibold">
+                <Sparkles className="size-4 text-accent" aria-hidden />
+                Engineering Highlights
+              </h4>
+              <ul className="mt-3 space-y-3">
+                {project.engineeringHighlights.map((item) => (
+                  <li
+                    key={item.title}
+                    className="rounded-xl border border-line bg-surface-raised p-4"
+                  >
+                    <p className="text-sm font-semibold text-foreground">{item.title}</p>
+                    <p className="mt-1 text-sm leading-relaxed text-muted">{item.detail}</p>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             <div className="mt-6">
