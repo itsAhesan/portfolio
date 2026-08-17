@@ -93,6 +93,8 @@ portfolio/
 ├── public/
 │   ├── images/          # photo assets
 │   └── resume/          # downloadable resume PDF
+├── scripts/
+│   └── build_cv.py      # regenerates the resume PDF from editable content
 ├── src/
 │   ├── app/             # App Router: layout, page, globals.css, SEO files
 │   ├── components/      # UI sections and shared primitives
